@@ -801,6 +801,17 @@ function process_dev_disp($gpu_data_array, $edit=false)
 
     $DEV_cell = $gpu_data_array['Name'] . $gpu_data_array['PGA'];
   }
+  else if (isset($gpu_data_array['ASC']))
+  {
+	if ($privileged)
+    {
+      if(($gpu_data_array['Enabled'] == "Y"))
+        $button = "<button type='submit' name='stopasc' value='".$gpu_data_array['ASC'].$button_disable."'>Stop</button>";
+      else
+        $button = "<button type='submit' name='startasc' value='".$gpu_data_array['ASC'].$button_disable."'>Start</button>";
+    }
+    $DEV_cell = $gpu_data_array['Name'] . $gpu_data_array['ASC'];
+  }
   else if (isset($gpu_data_array['CPU']))
   {
     $DEV_cell = $gpu_data_array['Name'] . $gpu_data_array['CPU'];
@@ -871,7 +882,7 @@ function process_devs_disp($host_data, $edit=false)
 /*  Description: retrives a single dev from a host
 /*  Inputs:      host_data - the host data array.
 /*               devid - the the device ID.
-/*               type - the the device type (CPU/GPU/PGA).
+/*               type - the the device type (CPU/GPU/PGA/ASC).
 /*  Outputs:     return - the device data array
 *****************************************************************************/
 function get_dev_data($host_data, $devid, $type)
@@ -887,6 +898,10 @@ function get_dev_data($host_data, $devid, $type)
   else if ($type == 'PGA')
   {
     $cmnd = 'pga';
+  }
+  else if ($type == 'ASC')
+  {
+    $cmnd = 'asc';
   }
 
   $arr = array ('command'=>$cmnd,'parameter'=>$devid);

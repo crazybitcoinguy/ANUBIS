@@ -64,6 +64,22 @@ if($host_data = get_host_data($id))
         $dev_response = send_request_to_host($arr, $host_data);
         sleep(2);
       }
+	  
+	  if (isset($_POST['startasc']))
+      {
+        $asc_id = filter_input(INPUT_POST, 'startasc', FILTER_SANITIZE_NUMBER_INT);
+        $arr = array ('command'=>'ascenable','parameter'=>$asc_id);
+        $dev_response = send_request_to_host($arr, $host_data);
+        sleep(2);
+      }
+
+      if (isset($_POST['stopasc']))
+      {
+        $asc_id = filter_input(INPUT_POST, 'stopasc', FILTER_SANITIZE_NUMBER_INT);
+        $arr = array ('command'=>'ascdisable','parameter'=>$asc_id);
+        $dev_response = send_request_to_host($arr, $host_data);
+        sleep(2);
+      }
       
       if (isset($_POST['flashpga']))
       {
@@ -322,7 +338,7 @@ if ($host_data)
         	<th scope="col" class="rounded-company">Name</th>
             <th scope="col" class="rounded-q1">IP / Hostname</th>
             <th scope="col" class="rounded-q1">Port</th>
-            <th scope="col" class="rounded-q1"><? if($config->cointype=='scrypt'){echo "KH/s";}else{ echo "MH/s";}?> desired</th>
+            <th scope="col" class="rounded-q1"><?php if($config->cointype=='scrypt'){echo "KH/s";}else{ echo "MH/s";}?> desired</th>
         </tr>
         <tr>
           <td align=center><input type="text" name="macname" value="<?php echo $host_data['name']; ?>"></td>
@@ -363,6 +379,7 @@ else {
         <div class="cleaner"></div>
     </div>
 </div> 
-  
+
+
 </body>
 </html>
